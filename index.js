@@ -1,6 +1,11 @@
 // Include packages needed for this application
 const inquirer = require("inquirer");
 const fs = require("fs")
+const outputFolder = "./examples/"
+
+// Constructor Shapes is importer
+const Shapes = require("./lib/shapes.js")
+
 var svg = require('svg-builder')
 .width(300)
 .height(200);
@@ -46,35 +51,15 @@ const questions = [
  once successful make a call to the 
  function: createLogo
  ****************************************/
- function createLogo(rspObject){
+ function createLogo(response){
 
-    var logo = svg
-        .circle({
-            r: 40,
-            fill: 'none',
-            'stroke-width': 1,
-            stroke: '#CB3728',
-            cx: 42,
-            cy: 82
-        }).circle({
-            r: 40,
-            fill: 'none',
-            'stroke-width': 1,
-            stroke: '#3B92BC',
-            cx: 84,
-            cy: 82
-        }).text({
-            x: 10,
-            y: 20,
-            'font-family': 'helvetica',
-            'font-size': 15,
-            stroke : '#fff',
-            fill: '#fff'
-        }, 'My logo').render();
+  const shape = new Shapes();
+  const svn = shape.circle(response.logoShape);
+  console.log(svn);
 
 
 
-    fs.writeFile("logo.svg","logo",
+    fs.writeFile(outputFolder+"logo.svg",svn,
     (err) => err ? false : true
     );
 
