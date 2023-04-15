@@ -51,11 +51,15 @@ const questions = [
   
   const shape = new Shape(200,300);
   const circle = new Circle(50,50,40);
+  const triangle = new Triangle(50,50,40);
+  const square = new square(100,100);
   const logoText = new LogoText();
 
  const logo =
  `${shape.render()}
   ${circle.render()}
+  ${triangle.render()}
+  ${square.render()}
   ${logoText.render()}
  `
 
