@@ -1,14 +1,10 @@
 // Include packages needed for this application
 const inquirer = require("inquirer");
-const fs = require("fs")
+const fs = require("fs");
+const {Shape, Circle, LogoText} = require("/Users/mark/bootcamp/svglogomaker/lib/shapes.js");
+
 const outputFolder = "./examples/"
 
-// Constructor Shapes is importer
-const Shapes = require("./lib/shapes.js")
-
-var svg = require('svg-builder')
-.width(300)
-.height(200);
 /****************************************
  Array of shape types
  ****************************************/
@@ -51,17 +47,34 @@ const questions = [
  once successful make a call to the 
  function: createLogo
  ****************************************/
- function createLogo(response){
+ function createLogo(){
+  
+  const shape = new Shape(200,300);
+  const circle = new Circle(50,50,40);
+  const logoText = new LogoText();
 
-  const shape = new Shapes();
-  const svn = shape.circle(response.logoShape);
-  console.log(svn);
+ const logo =
+ `${shape.render()}
+  ${circle.render()}
+  ${logoText.render()}
+ `
 
-
-
-    fs.writeFile(outputFolder+"logo.svg",svn,
+  /*
+  switch (response.shape){
+    case "circle":
+      svn = shape.circle();
+      break;
+    case "triangle":
+      svn = shape.triangle();
+      break;
+    case "square":
+        svn = shape.square();
+      break;
+ */
+  
+  fs.writeFile(outputFolder+"logo.svg",logo,
     (err) => err ? false : true
-    );
+  );
 
     console.log("Generated logo.svg")
  }
@@ -72,14 +85,15 @@ const questions = [
  writeReadme function
  ****************************************/
 function askQuestions(){
-
+createLogo();
+  /*
 inquirer
 .prompt(questions)
 .then(response => {
   console.log(response);
   createLogo(response);
   })
-
+*/
 };
 
 /****************************************
@@ -99,4 +113,4 @@ function init() {
  ****************************************/
 init();
 
-
+ 
