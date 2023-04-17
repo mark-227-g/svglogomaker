@@ -2,8 +2,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const {Shape, Circle, Triangle, Square, LogoText} = require("/Users/mark/bootcamp/svglogomaker/lib/shapes.js");
-const { height } = require("svg-builder");
-
+// define output folder
 const outputFolder = "./examples/"
 
 /****************************************
@@ -48,44 +47,38 @@ const questions = [
  once successful make a call to the 
  function: createLogo
  ****************************************/
- function createLogo(){
+ function createLogo(response){
   
-  const width=300;
-  const height=200;
+  const shapeWidth=300;
+  const shapeHeight=200;
+  const logoWidth=150;
+  const logoHeight=150;
+  const logox =50;
+  const logoy=50;
   const logoSpace = 10;
-  const shape = new Shape(width,height,"red");
-  const circle = new Circle(width/2,height/2,(height/2)-logoSpace,"blue");
-  const triangle = new Triangle(logox,(height),"green");
-  const square = new Square(logox,10,height-logoSpace,height-logospace,"black");
-  const logoText = new LogoText((width/2),(height/2)+20,"ABC","yellow");
-
- const logo =
- `${shape.render("begin")}
- 
-  ${square.render()}
-  ${circle.render()}
-  ${triangle.render()}
-  ${logoText.render()}
-  ${shape.render("end")}
- `
-
-  /*
-
-
-
-
-  switch (response.shape){
+  const logoColor="red";
+  const logoTextColor="yellow";
+  const shape = new Shape(shapeWidth,shapeHeight,"red");
+  const logoText = new LogoText(logox+(logoWidth/2),logoy+(shapeHeight/2),"ABC",logoTextColor)
+  var svg=""
+  switch ("circle"){
     case "circle":
-      svn = shape.circle();
+      svg = new Circle((logoWidth/2)+logox,(logoHeight/2)+logoy,logoHeight/2,logoColor);
       break;
     case "triangle":
-      svn = shape.triangle();
+      svg = Triangle(logox,logoy,logoWidth,logoHeight,logoColor);
       break;
     case "square":
-        svn = shape.square();
+      svg = new Square(logox,logoy,logoWidth,logoHeight,logoColor);
       break;
- */
-  
+  };
+      const logo =
+      `${shape.render("begin")}
+       ${svg.render()}
+       ${logoText.render()}
+       ${shape.render("end")}
+      `
+ 
   fs.writeFile(outputFolder+"logo.svg",logo,
     (err) => err ? false : true
   );
