@@ -1,7 +1,8 @@
 // Include packages needed for this application
 const inquirer = require("inquirer");
 const fs = require("fs");
-const {Shape, Circle, LogoText} = require("/Users/mark/bootcamp/svglogomaker/lib/shapes.js");
+const {Shape, Circle, Triangle, Square, LogoText} = require("/Users/mark/bootcamp/svglogomaker/lib/shapes.js");
+const { height } = require("svg-builder");
 
 const outputFolder = "./examples/"
 
@@ -49,21 +50,30 @@ const questions = [
  ****************************************/
  function createLogo(){
   
-  const shape = new Shape(200,300);
-  const circle = new Circle(50,50,40);
-  const triangle = new Triangle(50,50,40);
-  const square = new square(100,100);
-  const logoText = new LogoText();
+  const width=300;
+  const height=200;
+  const logoSpace = 10;
+  const shape = new Shape(width,height,"red");
+  const circle = new Circle(width/2,height/2,(height/2)-logoSpace,"blue");
+  const triangle = new Triangle(logox,(height),"green");
+  const square = new Square(logox,10,height-logoSpace,height-logospace,"black");
+  const logoText = new LogoText((width/2),(height/2)+20,"ABC","yellow");
 
  const logo =
- `${shape.render()}
+ `${shape.render("begin")}
+ 
+  ${square.render()}
   ${circle.render()}
   ${triangle.render()}
-  ${square.render()}
   ${logoText.render()}
+  ${shape.render("end")}
  `
 
   /*
+
+
+
+
   switch (response.shape){
     case "circle":
       svn = shape.circle();
