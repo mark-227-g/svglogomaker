@@ -2,6 +2,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const {Shape, Circle, Triangle, Square, LogoText} = require("/Users/mark/bootcamp/svglogomaker/lib/shapes.js");
+const { kMaxLength } = require("buffer");
 // define output folder
 const outputFolder = "./examples/"
 
@@ -9,9 +10,9 @@ const outputFolder = "./examples/"
  Array of shape types
  ****************************************/
  const shapeTypes=[
-    {id:'circle',name:'Circle'},
-    {id:'triangle',name:'Triangle'},
-    {id:'square',name:'Square'}
+    {id:'circle',name:'circle'},
+    {id:'triangle',name:'triangle'},
+    {id:'square',name:'square'}
  ]
 
 /****************************************
@@ -19,14 +20,15 @@ const outputFolder = "./examples/"
  ****************************************/
 const questions = [
   {
-    type: "input",
+    type: "maxlength-input",
     name: "logoText",
-    message: "Enter logo text (max three characters): "
+    message: "Enter logo text (max three characters): ",
+    MaxLength:3
   },
   {
     type: "input",
     name: "logoTextColor",
-    message: "Enter logo text color: "
+    message: "Enter logo text color or hexadecimal number: "
 },
 {
   type: "list",
@@ -38,7 +40,7 @@ const questions = [
 
     type: "input",
     name: "logoShapeColor",
-    message: "Select logo shape color: "
+    message: "Select logo shape color name or hexadecimal number: "
   }
 ];
 
@@ -47,37 +49,43 @@ const questions = [
  once successful make a call to the 
  function: createLogo
  ****************************************/
- function createLogo(response){
+ function createLogo(rsp){
   
   const shapeWidth=300;
   const shapeHeight=200;
   const logoWidth=150;
   const logoHeight=150;
-  const logox =50;
-  const logoy=50;
-  const logoSpace = 10;
-  const logoColor="red";
-  const logoTextColor="yellow";
-  const shape = new Shape(shapeWidth,shapeHeight,"red");
-  const logoText = new LogoText(logox+(logoWidth/2),logoy+(shapeHeight/2),"ABC",logoTextColor)
+  const logox=75;
+  var logoy=25;
+
+  const logoShapeColor=rsp.logoShapeColor;
+  const logoTextColor=rsp.logoTextColor;
+
+  const shape = new Shape(shapeWidth,shapeHeight,"");
+
   var svg=""
-  switch ("circle"){
+  switch (rsp.logoShape){
     case "circle":
-      svg = new Circle((logoWidth/2)+logox,(logoHeight/2)+logoy,logoHeight/2,logoColor);
+      svg = new Circle((shapeWidth/2),(shapeHeight/2),80,logoShapeColor);
       break;
     case "triangle":
-      svg = Triangle(logox,logoy,logoWidth,logoHeight,logoColor);
+      svg = new Triangle(logox,logoy,logoWidth,logoHeight,logoShapeColor);
+      logoy+=25;
       break;
     case "square":
-      svg = new Square(logox,logoy,logoWidth,logoHeight,logoColor);
+      svg = new Square(logox,logoy,logoWidth,logoHeight,logoShapeColor);
       break;
   };
+  const logoText = new LogoText(logox+(logoWidth/2),logoy+(shapeHeight/2),rsp.logoText,logoTextColor)
+ 
       const logo =
-      `${shape.render("begin")}
-       ${svg.render()}
-       ${logoText.render()}
-       ${shape.render("end")}
-      `
+`${shape.render("begin")}
+
+  ${svg.render()}
+
+  ${logoText.render()}
+
+${shape.render("end")}`
  
   fs.writeFile(outputFolder+"logo.svg",logo,
     (err) => err ? false : true
@@ -92,15 +100,14 @@ const questions = [
  writeReadme function
  ****************************************/
 function askQuestions(){
-createLogo();
-  /*
+
 inquirer
 .prompt(questions)
 .then(response => {
   console.log(response);
   createLogo(response);
   })
-*/
+
 };
 
 /****************************************
