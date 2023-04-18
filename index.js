@@ -20,10 +20,12 @@ const outputFolder = "./examples/"
  ****************************************/
 const questions = [
   {
-    type: "maxlength-input",
+    type: "input",
     name: "logoText",
     message: "Enter logo text (max three characters): ",
-    MaxLength:3
+    validate:(logoText) => {
+      return logoText.length <= 3 ? true:"text too long.";
+    }
   },
   {
     type: "input",
