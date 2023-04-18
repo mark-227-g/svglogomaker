@@ -1,8 +1,6 @@
 # osx 
 .DS_Store
 assets/.DS_Store
-# examples
-examples
 
 # Logs
 logs
